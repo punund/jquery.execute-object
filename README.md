@@ -14,9 +14,9 @@ $.executeObject('{"#my_div": ["text", "new text"]}') // JSON is ok too
 Instead of
 
 ```javascript
-$('table tr:first').remove()
-$('input#name').val('John')
-$('#my_div').addClass('error').text('Error occured')
+$('table tr:first').remove();
+$('input#name').val('John');
+$('#my_div').addClass('error').text('Error occured');
 ```
 create an object and pass it to the executeObject function:
 
