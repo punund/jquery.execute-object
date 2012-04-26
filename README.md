@@ -14,7 +14,7 @@ $.executeObject('{"#my_div": ["text", "new text"]}') // JSON is ok too
 Instead of
 
 ```javascript
-$('table tr').remove()
+$('table tr:first').remove()
 $('input#name').val('John')
 $('#my_div').addClass('error').text('Error occured')
 ```
@@ -22,7 +22,7 @@ create an object and pass it to the executeObject function:
 
 ```javascript
 var obj =
-  { 'table tr': 'remove'
+  { 'table tr:first': 'remove'
   , 'input#name': ['val', 'John']
   , '#my_div':
     [ ['addClass', 'error']
@@ -39,12 +39,13 @@ $('input#name').val('<%= escape_javascript(@person.name) %>')
 $('#my_div').addClass('error').text('<%= escape_javascript(@error) %>')
 ```
 
-you may simply shift this logic to the controller:
+you may simply shift this logic to the controller (example in ruby):
 ```ruby
 obj = {'input#name' => ['val', @person.name], 
   '#my_div' => [%w[addClass error], ['text', @error]]}
   
-render js: "$.executeObject(#{obj})"
+render js: "$.executeObject( #{obj.to_json} )"
+# note that we don't need extra quotes inside function call
 ```
 and scratch the view altogether.  Javascript passed from the server is notoriously hard to debug, so let's pass an object instead.  You may also indicate $.executeObject as a callback function for your ajax call
 ```javascript
