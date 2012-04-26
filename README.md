@@ -21,7 +21,7 @@ $('#my_div').addClass('error').text('Error occured')
 create an object and pass it to the executeObject function:
 
 ```javascript
-var o =
+var obj =
   { 'table tr': 'remove'
   , 'input#name': ['val', 'John']
   , '#my_div':
@@ -30,7 +30,7 @@ var o =
     ]
   }
 
-$.executeObject(o)
+$.executeObject(obj)
 ```
 Specifically, if you find yourself creating horrendous view templates in vein of
 
@@ -41,10 +41,10 @@ $('#my_div').addClass('error').text('<%= escape_javascript(@error) %>')
 
 you may simply shift this logic to the controller:
 ```ruby
-o = {'input#name' => ['val', @person.name], 
-  '#my_div' => [%w[addClass error], ['text', @error']]}
+obj = {'input#name' => ['val', @person.name], 
+  '#my_div' => [%w[addClass error], ['text', @error]]}
   
-render js: "$.executeObject(#{o})"
+render js: "$.executeObject(#{obj})"
 ```
 and scratch the view altogether.  Javascript passed from the server is notoriously hard to debug, so let's pass an object instead.  You may also indicate $.executeObject as a callback function for your ajax call
 ```javascript
@@ -53,7 +53,7 @@ $.post('/my/url', {some: 'data'}, $.executeObject)
 
 and simply pass JSON in response:
 ```ruby
-render json: o
+render json: obj
 ```
 
 In other words, it's always better to pass around data, and not code.
